@@ -2,7 +2,7 @@ package com.hospital.presentacion.panels;
 
 import com.hospital.data.model.Cita;
 import com.hospital.negocio.CitaService;
-import com.hospital.data.dao.MedicoDAO; // no implementado arriba, puedes usar MedicoDAO en su lugar
+import com.hospital.data.dao.MedicoDAO; // no implementado arriba, usar MedicoDAO en su lugar
 import com.hospital.data.dao.MedicoDAO;
 import com.hospital.data.dao.PacienteDAO;
 

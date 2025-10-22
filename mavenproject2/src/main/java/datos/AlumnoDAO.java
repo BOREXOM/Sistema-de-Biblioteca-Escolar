@@ -33,4 +33,15 @@ public class AlumnoDAO {
         }
         return null;
     }
+
+    // Actualizar alumno (nombre, matrícula, usuario_id)
+    public void actualizar(Alumno alumno) throws SQLException {
+        String sql = "UPDATE alumnos SET nombre = ?, matricula = ?, usuario_id = ? WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, alumno.getNombre());
+        stmt.setString(2, alumno.getMatricula());
+        stmt.setInt(3, alumno.getUsuarioId());
+        stmt.setInt(4, alumno.getId());
+        stmt.executeUpdate();
+    }
 }

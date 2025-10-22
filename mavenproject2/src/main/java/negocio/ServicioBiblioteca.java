@@ -38,6 +38,11 @@ public class ServicioBiblioteca {
         return libroDAO.listarDisponibles();
     }
 
+    // Listar todos los libros (para roles Admin/Bibliotecario)
+    public List<Libro> listarLibrosTodos() throws SQLException {
+        return libroDAO.listarTodos();
+    }
+
     public List<Prestamo> listarPrestamosPorAlumno(int alumnoId) throws SQLException {
         return prestamoDAO.listarPorAlumno(alumnoId);
     }
@@ -52,5 +57,14 @@ public class ServicioBiblioteca {
             return java.util.Collections.emptyList();
         }
         return prestamoDAO.listarPorAlumno(alumno.getId());
+    }
+
+    // Actualizaciones
+    public void actualizarAlumno(Alumno alumno) throws SQLException {
+        alumnoDAO.actualizar(alumno);
+    }
+
+    public void actualizarLibro(Libro libro) throws SQLException {
+        libroDAO.actualizar(libro);
     }
 }

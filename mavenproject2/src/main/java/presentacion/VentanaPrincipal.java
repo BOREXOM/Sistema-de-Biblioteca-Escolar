@@ -183,6 +183,23 @@ public class VentanaPrincipal extends JFrame {
             JButton btnRegistrar = new JButton("Registrar Alumno");
             btnRegistrar.addActionListener(e -> new VentanaRegistroAlumno().setVisible(true));
             barra.add(btnRegistrar);
+
+            JButton btnEditar = new JButton("Editar seleccionado");
+            btnEditar.addActionListener(e -> {
+                int row = tablaAlumnos.getSelectedRow();
+                if (row < 0) {
+                    JOptionPane.showMessageDialog(this, "Selecciona un alumno para editar.");
+                    return;
+                }
+                int id = (int) modeloAlumnos.getValueAt(row, 0);
+                String nombre = (String) modeloAlumnos.getValueAt(row, 1);
+                String matricula = (String) modeloAlumnos.getValueAt(row, 2);
+                int usuarioId = (int) modeloAlumnos.getValueAt(row, 3);
+                VentanaEditarAlumno dlg = new VentanaEditarAlumno(this, id, nombre, matricula, usuarioId, servicio);
+                dlg.setVisible(true);
+                cargarAlumnos();
+            });
+            barra.add(btnEditar);
         }
         return barra;
     }
@@ -211,6 +228,23 @@ public class VentanaPrincipal extends JFrame {
             JButton btnRegistrar = new JButton("Registrar Libro");
             btnRegistrar.addActionListener(e -> new VentanaRegistroLibro().setVisible(true));
             barra.add(btnRegistrar);
+
+            JButton btnEditar = new JButton("Editar seleccionado");
+            btnEditar.addActionListener(e -> {
+                int row = tablaLibros.getSelectedRow();
+                if (row < 0) {
+                    JOptionPane.showMessageDialog(this, "Selecciona un libro para editar.");
+                    return;
+                }
+                int id = (int) modeloLibros.getValueAt(row, 0);
+                String titulo = (String) modeloLibros.getValueAt(row, 1);
+                String autor = (String) modeloLibros.getValueAt(row, 2);
+                String isbn = (String) modeloLibros.getValueAt(row, 3);
+                VentanaEditarLibro dlg = new VentanaEditarLibro(this, id, titulo, autor, isbn, servicio);
+                dlg.setVisible(true);
+                cargarLibros();
+            });
+            barra.add(btnEditar);
         }
         return barra;
     }
@@ -241,7 +275,12 @@ public class VentanaPrincipal extends JFrame {
     private void cargarLibros() {
         try {
             limpiarModelo(modeloLibros);
-            List<Libro> libros = servicio.listarLibrosDisponibles();
+            java.util.List<Libro> libros;
+            if ("Alumno".equalsIgnoreCase(usuario.getRol())) {
+                libros = servicio.listarLibrosDisponibles();
+            } else {
+                libros = servicio.listarLibrosTodos();
+            }
             for (Libro l : libros) {
                 modeloLibros.addRow(new Object[]{l.getId(), l.getTitulo(), l.getAutor(), l.getIsbn(), l.isDisponible() ? "Sí" : "No"});
             }
