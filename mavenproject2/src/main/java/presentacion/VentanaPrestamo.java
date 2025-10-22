@@ -3,6 +3,8 @@ package presentacion;
 import negocio.Prestamo;
 import negocio.ServicioBiblioteca;
 import negocio.Usuario;
+import negocio.Alumno;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -33,6 +35,19 @@ public class VentanaPrestamo extends JFrame {
         gbc.gridx = 1;
         txtAlumnoId = new JTextField(20);
         add(txtAlumnoId, gbc);
+
+        // Prefill para alumnos
+        if ("Alumno".equalsIgnoreCase(usuario.getRol())) {
+            try {
+                Alumno alumno = servicio.obtenerAlumnoPorUsuarioId(usuario.getId());
+                if (alumno != null) {
+                    txtAlumnoId.setText(String.valueOf(alumno.getId()));
+                    txtAlumnoId.setEditable(false);
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error obteniendo alumno: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
 
         gbc.gridx = 0; gbc.gridy = 1;
         add(new JLabel("ID Libro:"), gbc);

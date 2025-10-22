@@ -18,32 +18,87 @@ public class VentanaLogin extends JFrame {
     private ServicioBiblioteca servicio = new ServicioBiblioteca();
 
     public VentanaLogin() {
-        setTitle("Login - Biblioteca Escolar");
-        setSize(400, 300);
+        setTitle("Biblioteca Escolar - Login");
+        setSize(900, 560);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridBagLayout());
-        getContentPane().setBackground(new Color(173, 216, 230)); // Azul claro
+        setLayout(new BorderLayout());
 
+        Color azulPrincipal = new Color(41, 128, 185);
+        Color azulClaro = new Color(174, 214, 241);
+        Color fondo = new Color(245, 247, 250);
+        Color texto = new Color(44, 62, 80);
+
+        // Panel izquierdo (branding)
+        JPanel panelIzquierdo = new JPanel();
+        panelIzquierdo.setBackground(azulPrincipal);
+        panelIzquierdo.setPreferredSize(new Dimension(380, getHeight()));
+        panelIzquierdo.setLayout(new BoxLayout(panelIzquierdo, BoxLayout.Y_AXIS));
+
+        JLabel tituloIzq = new JLabel("Biblioteca Escolar", SwingConstants.CENTER);
+        tituloIzq.setFont(new Font("Segoe UI Semibold", Font.BOLD, 24));
+        tituloIzq.setForeground(Color.WHITE);
+        tituloIzq.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tituloIzq.setBorder(BorderFactory.createEmptyBorder(40, 0, 10, 0));
+
+        JLabel subtituloIzq = new JLabel("Gestiona libros y préstamos con facilidad", SwingConstants.CENTER);
+        subtituloIzq.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        subtituloIzq.setForeground(Color.WHITE);
+        subtituloIzq.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        panelIzquierdo.add(tituloIzq);
+        panelIzquierdo.add(subtituloIzq);
+        panelIzquierdo.add(Box.createVerticalGlue());
+
+        // Panel derecho (formulario)
+        JPanel panelDerecho = new JPanel(new BorderLayout());
+        panelDerecho.setBackground(fondo);
+        panelDerecho.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+
+        JLabel tituloForm = new JLabel("Iniciar sesión");
+        tituloForm.setFont(new Font("Segoe UI Semibold", Font.BOLD, 22));
+        tituloForm.setForeground(texto);
+        panelDerecho.add(tituloForm, BorderLayout.NORTH);
+
+        JPanel form = new JPanel(new GridBagLayout());
+        form.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.WEST;
 
         gbc.gridx = 0; gbc.gridy = 0;
-        add(new JLabel("Email:"), gbc);
+        JLabel lblEmail = new JLabel("Email:");
+        lblEmail.setForeground(texto);
+        form.add(lblEmail, gbc);
         gbc.gridx = 1;
-        txtEmail = new JTextField(20);
-        add(txtEmail, gbc);
+        txtEmail = new JTextField(24);
+        form.add(txtEmail, gbc);
 
         gbc.gridx = 0; gbc.gridy = 1;
-        add(new JLabel("Contraseña:"), gbc);  // Aquí estaba cortado - completado
+        JLabel lblPass = new JLabel("Contraseña:");
+        lblPass.setForeground(texto);
+        form.add(lblPass, gbc);
         gbc.gridx = 1;
-        txtPassword = new JPasswordField(20);
-        add(txtPassword, gbc);
+        txtPassword = new JPasswordField(24);
+        form.add(txtPassword, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
-        btnLogin = new JButton("Iniciar Sesión");
-        btnLogin.setBackground(new Color(70, 130, 180)); // Azul oscuro
+        final char defaultEchoChar = txtPassword.getEchoChar();
+        gbc.gridx = 1; gbc.gridy = 2;
+        JCheckBox chkMostrar = new JCheckBox("Mostrar contraseña");
+        chkMostrar.setOpaque(false);
+        chkMostrar.setForeground(texto);
+        chkMostrar.addActionListener(e -> {
+            if (chkMostrar.isSelected()) txtPassword.setEchoChar((char)0);
+            else txtPassword.setEchoChar(defaultEchoChar);
+        });
+        form.add(chkMostrar, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
+        btnLogin = new JButton("Ingresar");
+        btnLogin.setBackground(azulPrincipal);
         btnLogin.setForeground(Color.WHITE);
+        btnLogin.setFocusPainted(false);
+        btnLogin.setPreferredSize(new Dimension(220, 36));
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,7 +119,12 @@ public class VentanaLogin extends JFrame {
                 }
             }
         });
-        add(btnLogin, gbc);
+        form.add(btnLogin, gbc);
+
+        panelDerecho.add(form, BorderLayout.CENTER);
+
+        add(panelIzquierdo, BorderLayout.WEST);
+        add(panelDerecho, BorderLayout.CENTER);
 
         setVisible(true);
     }

@@ -41,4 +41,16 @@ public class ServicioBiblioteca {
     public List<Prestamo> listarPrestamosPorAlumno(int alumnoId) throws SQLException {
         return prestamoDAO.listarPorAlumno(alumnoId);
     }
+
+    public Alumno obtenerAlumnoPorUsuarioId(int usuarioId) throws SQLException {
+        return alumnoDAO.buscarPorUsuarioId(usuarioId);
+    }
+
+    public List<Prestamo> listarPrestamosDelUsuario(int usuarioId) throws SQLException {
+        Alumno alumno = alumnoDAO.buscarPorUsuarioId(usuarioId);
+        if (alumno == null) {
+            return java.util.Collections.emptyList();
+        }
+        return prestamoDAO.listarPorAlumno(alumno.getId());
+    }
 }

@@ -3,6 +3,7 @@ package presentacion;
 import negocio.Prestamo;
 import negocio.ServicioBiblioteca;
 import negocio.Usuario;
+import negocio.Alumno;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
@@ -25,9 +26,18 @@ public class VentanaVerPrestamos extends JFrame {
         txtArea.setEditable(false);
         txtArea.setBackground(Color.WHITE);
         try {
-            List<Prestamo> prestamos = servicio.listarPrestamosPorAlumno(usuario.getId()); // Asumiendo que usuario.getId() es alumnoId
-            for (Prestamo p : prestamos) {
-                txtArea.append("ID: " + p.getId() + " | Libro ID: " + p.getLibroId() + " | Multa: $" + p.getMulta() + "\n");
+            Alumno alumno = servicio.obtenerAlumnoPorUsuarioId(usuario.getId());
+            if (alumno == null) {
+                txtArea.setText("No se encontró alumno vinculado a tu usuario.");
+            } else {
+                List<Prestamo> prestamos = servicio.listarPrestamosPorAlumno(alumno.getId());
+                if (prestamos.isEmpty()) {
+                    txtArea.setText("No tienes préstamos registrados.");
+                } else {
+                    for (Prestamo p : prestamos) {
+                        txtArea.append("ID: " + p.getId() + " | Libro ID: " + p.getLibroId() + " | Fecha: " + p.getFechaPrestamo() + " | Multa: $" + p.getMulta() + "\n");
+                    }
+                }
             }
         } catch (SQLException ex) {
             txtArea.setText("Error al cargar préstamos: " + ex.getMessage());

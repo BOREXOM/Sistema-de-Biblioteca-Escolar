@@ -23,4 +23,14 @@ public class AlumnoDAO {
         }
         return alumnos;
     }
+    public Alumno buscarPorUsuarioId(int usuarioId) throws SQLException {
+        String sql = "SELECT * FROM alumnos WHERE usuario_id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, usuarioId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return new Alumno(rs.getInt("id"), rs.getString("nombre"), rs.getString("matricula"), rs.getInt("usuario_id"));
+        }
+        return null;
+    }
 }

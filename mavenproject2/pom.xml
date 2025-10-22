@@ -7,16 +7,14 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>24</maven.compiler.release>
-        <exec.mainClass>presentacion.Main</exec.mainClass>  <!-- Cambiado a tu clase principal -->
+        <maven.compiler.release>17</maven.compiler.release>
+        <exec.mainClass>presentacion.Main</exec.mainClass>
     </properties>
-    
-    <!-- Nueva sección: Dependencias -->
     <dependencies>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>  <!-- Versión recomendada para MySQL 8.0+ -->
+            <version>8.0.33</version>
         </dependency>
     </dependencies>
     <name>enunciado1</name>
